@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Free Weather</title>
+  <title>Weather</title>
   <style>
     h2 {
         font-style: oblique;
@@ -25,7 +25,6 @@
       width: 50%;
       text-align: center;
     }
-
     input {
       padding: 8px;
       font-size: 16px;
@@ -54,9 +53,7 @@
   </style>
 </head>
 <body>
-
-  <div id="clock"></div> <!-- Clock -->
-
+  <div id="clock"></div>
   <h2>LIVE WEATHER UPDATES</h2>
   <div class="container">
     <input type="text" id="city" placeholder="Enter city (e.g. London)" required/>
@@ -64,18 +61,14 @@
     <div id="result" style="margin-top: 15px;"></div>
     <br><br>
   </div>
-
   <script>
-    // Clock logic
     function updateClock() {
       const now = new Date();
       const timeStr = now.toLocaleTimeString();
       document.getElementById('clock').textContent = timeStr;
     }
     setInterval(updateClock, 1000);
-    updateClock(); // Initial call
-
-    // Weather logic
+    updateClock(); 
     async function getWeather() {
       const city = document.getElementById('city').value.trim();
       const result = document.getElementById('result');
@@ -106,10 +99,10 @@
 
         result.innerHTML = `
         <br><br>
-        <li><strong>-City:</strong> ${city}<br/></li>
-        <li><strong>-Temperature:</strong> ${current.temperature} °C<br/></li>
-        <li><strong>-Windspeed:</strong> ${current.windspeed} km/h<br/></li>
-        <li><strong>-Time:</strong> ${current.time}</li>
+        <li><strong>City:</strong> ${city}<br/></li>
+        <li><strong>Temperature:</strong> ${current.temperature} °C<br/></li>
+        <li><strong>Windspeed:</strong> ${current.windspeed} km/h<br/></li>
+        <li><strong>Time:</strong> ${current.time}</li>
         `;
       } catch (error) {
         result.innerHTML = "Error fetching data.";
