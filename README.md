@@ -1,15 +1,13 @@
-
-
-
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Free Weather</title>
   <style>
-    h2{
-        font-style:oblique;
+    h2 {
+      font-style: oblique;
+      color: #1e3a8a;
+      margin-bottom: 20px;
     }
     body {
       font-family: Arial, sans-serif;
@@ -21,22 +19,45 @@
     }
     .container {
       background: rgb(154, 192, 222);
-      padding:25%;
-      border-radius: 5%;
-      box-shadow: 0 4px 10px rgba(18, 18, 18, 0.1);
-      width: 50%;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 450px;
       text-align: center;
     }
     input {
-      padding: 8px;
+      padding: 10px;
       font-size: 16px;
-      margin: 5px;
+      margin: 8px 0;
+      width: 80%;
+      max-width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
     }
     button {
-      padding: 8px;
+      padding: 10px 18px;
       font-size: 16px;
-      margin: 5px;
-      border-radius:10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background-color: #2563eb;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #1d4ed8;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #111827;
+      line-height: 1.5;
+    }
+    li {
+      list-style-type: none;
+      margin: 5px 0;
     }
   </style>
 </head>
@@ -44,21 +65,20 @@
   <h2>LIVE WEATHER UPDATES</h2>
   <div class="container">
     <input type="text" id="city" placeholder="Enter city (e.g. London)" required/>
+    <br>
     <button onclick="getWeather()">Get Weather</button>
-    <div id="result" style="margin-top: 15px;"></div>
-    <br><br>
+    <div id="result"></div>
   </div>
 
   <script>
     async function getWeather() {
       const city = document.getElementById('city').value.trim();
       const result = document.getElementById('result');
-      
 
       result.innerHTML = "Loading...";
 
       try {
-               const geoRes = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json`);
+        const geoRes = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json`);
         const geoData = await geoRes.json();
 
         if (!geoData.length) {
@@ -69,7 +89,6 @@
         const lat = geoData[0].lat;
         const lon = geoData[0].lon;
 
-        // Get weather from Open-Meteo
         const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
         const weatherData = await weatherRes.json();
 
@@ -81,12 +100,12 @@
         const current = weatherData.current_weather;
 
         result.innerHTML = `
-        <br><br>
-        <li><strong >-City:</strong> ${city}<br/></li>
-         <li><strong >-Temperature:</strong> ${current.temperature} °C<br/></li>
-         <li> <strong >-Windspeed:</strong> ${current.windspeed} km/h<br/></li>
-         <li> <strong >-Time:</strong> ${current.time}</li>
-          
+          <ul>
+            <li><strong>- City:</strong> ${city}</li>
+            <li><strong>- Temperature:</strong> ${current.temperature} °C</li>
+            <li><strong>- Windspeed:</strong> ${current.windspeed} km/h</li>
+            <li><strong>- Time:</strong> ${current.time}</li>
+          </ul>
         `;
       } catch (error) {
         result.innerHTML = "Error fetching data.";
