@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +21,7 @@
     }
     .container {
       background: rgb(154, 192, 222);
-      padding:7%;
+      padding:25%;
       border-radius: 5%;
       box-shadow: 0 4px 10px rgba(18, 18, 18, 0.1);
       width: 50%;
